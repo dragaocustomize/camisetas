@@ -787,28 +787,27 @@ async function finalizar(){
   document.getElementById('mpag').classList.remove('open');
   const codigo=String(Math.floor(1000+Math.random()*9000));
   // Enviar para Formspree
-  try{
-    const fd=new FormData();
-    fd.append('_subject','🎨 Novo Pedido #'+codigo+' – Dragão Customize');
-    fd.append('Código',codigo);
-    fd.append('Cor',corNome);
-    fd.append('Posicionamentos',positions.join(', ')||'Nenhum');
-    fd.append('Itens',cartSummary());
-    fd.append('Total',fBRL(totPrice()));
-    fd.append('Pagamento',tipo==='pix'?'PIX pelo WhatsApp (5% desconto)':'Cartão de Crédito');
-    fd.append('Nome',document.getElementById('fin-nome').value);
-    fd.append('WhatsApp Comprador',document.getElementById('fin-wpp').value);
-    fd.append('Email Comprador',document.getElementById('fin-emailc').value);
-    fd.append('Empresa Camiseta',document.getElementById('f-emp').value);
-    fd.append('WhatsApp Camiseta',document.getElementById('f-wpp').value);
-    if(document.getElementById('logo-inp').files[0]) fd.append('Logo',document.getElementById('logo-inp').files[0]);
-    await fetch('https://formspree.io/f/mkoeggyl',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
-  }catch(e){}
+  const msg=encodeURIComponent(
+`🎨 *Novo Pedido #${codigo} – Dragão Customize*
+
+👤 *Cliente:* ${document.getElementById('fin-nome').value}
+📱 *WhatsApp:* ${document.getElementById('fin-wpp').value}
+📧 *E-mail:* ${document.getElementById('fin-emailc').value||'Não informado'}
+
+👕 *Personalização:*
+• Cor: ${corNome}
+• Posicionamentos: ${positions.join(', ')||'Nenhum'}
+• Empresa: ${document.getElementById('f-emp').value||'Não informado'}
+• WhatsApp camiseta: ${document.getElementById('f-wpp').value||'Não informado'}
+• Site: ${document.getElementById('f-site').value||'Não informado'}
+• E-mail camiseta: ${document.getElementById('f-email').value||'Não informado'}
+
+🛒 *Itens:* ${cartSummary()}
+💰 *Total: ${fBRL(totPrice())}*
+
+📎 _Envie sua logo neste chat para iniciarmos!_`)
   // Mostrar sucesso
   document.getElementById('cod-pedido').textContent=codigo;
-  const msg=encodeURIComponent(`Olá! Meu código de pedido é: *${codigo}*
-Pedido: ${cartSummary()}
-Total: ${fBRL(totPrice())}`);
   document.getElementById('wpp-btn').onclick=()=>window.open(`https://wa.me/5511941593826?text=${msg}`,'_blank');
   document.getElementById('msuc').classList.add('open');
 }
