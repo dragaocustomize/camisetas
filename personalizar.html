@@ -783,58 +783,33 @@ function abrirPagamento(){
 
 
 async function finalizar(){
-
   const tipo='whatsapp';
   document.getElementById('mpag').classList.remove('open');
-
   const codigo=String(Math.floor(1000+Math.random()*9000));
-
+  // Enviar para Formspree
   try{
-
-    const response = await fetch(console.log('STATUS:', response.status);
-
-const texto = await response.text();
-console.log('RESPOSTA:', texto);
-
-alert('Status: ' + response.status);
-      'https://script.google.com/macros/s/AKfycby_TPTGpatI0Pit7NcBVrNdVOPbu8Ygmm3Cu7VpSCzWGRJtsb6seQJtbERWFvl3cqjD/exec',
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-  codigo:codigo,
-  nome:'TESTE GABRIEL',
-  whatsapp:'11999999999',
-  email:'teste@gmail.com',
-  empresa:'DRAGAO CUSTOMIZE',
-  cor:typeof corNome !== 'undefined' ? corNome : '',
-  itens:cartSummary(),
-  total:fBRL(totPrice())
-})
-      }
-    );
-
-  }catch(error){
-    console.error(error);
-  }
-
+    const fd=new FormData();
+    fd.append('_subject','🎨 Novo Pedido #'+codigo+' – Dragão Customize');
+    fd.append('Código',codigo);
+    fd.append('Cor',corNome);
+    fd.append('Posicionamentos',positions.join(', ')||'Nenhum');
+    fd.append('Itens',cartSummary());
+    fd.append('Total',fBRL(totPrice()));
+    fd.append('Pagamento',tipo==='pix'?'PIX pelo WhatsApp (5% desconto)':'Cartão de Crédito');
+    fd.append('Nome',document.getElementById('fin-nome').value);
+    fd.append('WhatsApp Comprador',document.getElementById('fin-wpp').value);
+    fd.append('Email Comprador',document.getElementById('fin-emailc').value);
+    fd.append('Empresa Camiseta',document.getElementById('f-emp').value);
+    fd.append('WhatsApp Camiseta',document.getElementById('f-wpp').value);
+    if(document.getElementById('logo-inp').files[0]) fd.append('Logo',document.getElementById('logo-inp').files[0]);
+    await fetch('https://formspree.io/f/mkoeggyl',{method:'POST',body:fd,headers:{'Accept':'application/json'}});
+  }catch(e){}
+  // Mostrar sucesso
   document.getElementById('cod-pedido').textContent=codigo;
-
-  const msg=encodeURIComponent(
-`Olá! Meu código de pedido é: *${codigo}*
+  const msg=encodeURIComponent(`Olá! Meu código de pedido é: *${codigo}*
 Pedido: ${cartSummary()}
-Total: ${fBRL(totPrice())}`
-  );
-
-  document.getElementById('wpp-btn').onclick=()=>{
-    window.open(
-      `https://wa.me/5511941593826?text=${msg}`,
-      '_blank'
-    );
-  };
-
+Total: ${fBRL(totPrice())}`);
+  document.getElementById('wpp-btn').onclick=()=>window.open(`https://wa.me/5511941593826?text=${msg}`,'_blank');
   document.getElementById('msuc').classList.add('open');
 }
 
