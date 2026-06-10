@@ -238,9 +238,14 @@ nav{position:sticky;top:0;z-index:99;display:flex;align-items:center;justify-con
     <div class="lbl">🎬 VÍDEO INFORMATIVO</div>
     <p style="font-size:.8rem;color:var(--gray);margin-bottom:.8rem">Assista antes de personalizar.</p>
     <div style="position:relative;width:100%;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:#000">
-      <iframe id="vi-frame" src="https://youtu.be/RGgx5ygy7ew?si=0xiqn62-iA__1Y5e" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
-      <div id="vi-ph" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a1a2e;cursor:pointer" onclick="document.getElementById('vi-ph').style.display='none';document.getElementById('vi-inp').style.display='flex'">
-        <div style="font-size:2.5rem">▶️</div>
+     <iframe 
+id="vi-frame"
+src="https://www.youtube-nocookie.com/embed/RGgx5ygy7ew?rel=0&modestbranding=1&controls=1"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen
+style="position:absolute;top:0;left:0;width:100%;height:100%">
+</iframe>
         <div style="color:white;font-family:var(--fh);font-weight:700;margin-top:.4rem">Adicionar vídeo</div>
       </div>
     </div>
